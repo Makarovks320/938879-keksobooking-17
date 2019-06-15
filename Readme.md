@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Неопознанный енот](https://up.htmlacademy.ru/javascript/17/user/938879).
-* Наставник: `Дмитрий Харин`.
+* Наставник: gi[Дмитрий Харин](https://htmlacademy.ru/profile/dihar).
 
 ---
 
