@@ -6,13 +6,16 @@ var TYPES = [
   'house',
   'bungalo'
 ];
-var template = document.querySelector('#pin');
-var listNode = document.querySelector('.map__pins');
-var adverts = getRandomAdvert(8);
-
 document.querySelector('.map').classList.remove('map--faded');
 
+var template = document.querySelector('#pin');
+var listNode = document.querySelector('.map__pins');
+var fragment = document.createDocumentFragment();
+
+var adverts = getRandomAdvert(8);
 displayAdverts(adverts);
+listNode.appendChild(fragment);
+
 
 function getRandomInteger(max, min) {
   if (min === undefined) {
@@ -49,8 +52,10 @@ function createAdvertElement(advert) {
   return advertElement;
 }
 
+
 function displayAdverts(localAdverts) {
   localAdverts.forEach(function (advertItem) {
-    listNode.appendChild(createAdvertElement(advertItem));
+    fragment.appendChild(createAdvertElement(advertItem));
   });
 }
+
