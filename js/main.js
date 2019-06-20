@@ -6,6 +6,7 @@ var TYPES = [
   'house',
   'bungalo'
 ];
+
 document.querySelector('.map').classList.remove('map--faded');
 
 var template = document.querySelector('#pin');
@@ -13,9 +14,8 @@ var listNode = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
 var adverts = getRandomAdvert(8);
-displayAdverts(adverts);
+fillDocumentFragment(adverts);
 listNode.appendChild(fragment);
-
 
 function getRandomInteger(max, min) {
   if (min === undefined) {
@@ -35,7 +35,7 @@ function getRandomAdvert(count) {
       type: TYPES[getRandomInteger(8)]
     };
     localAdvert.location = {
-      x: getRandomInteger(130, 630),
+      x: getRandomInteger(listNode.offsetWidth - 50, 0),
       y: getRandomInteger(130, 630)
     };
     localAdverts[i] = localAdvert;
@@ -53,9 +53,8 @@ function createAdvertElement(advert) {
 }
 
 
-function displayAdverts(localAdverts) {
+function fillDocumentFragment(localAdverts) {
   localAdverts.forEach(function (advertItem) {
     fragment.appendChild(createAdvertElement(advertItem));
   });
 }
-
