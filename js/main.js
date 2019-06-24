@@ -7,15 +7,19 @@ var TYPES = [
   'bungalo'
 ];
 
-document.querySelector('.map').classList.remove('map--faded');
-
 var template = document.querySelector('#pin');
 var listNode = document.querySelector('.map__pins');
-var fragment = document.createDocumentFragment();
+
+var X_RIGHT_MAP_BORDER = listNode.offsetWidth - 50;
+var X_LEFT_MAP_BORDER = 0;
+var Y_BOTTOM_MAP_BORDER = 630;
+var Y_TOP_MAP_BORDER = 130;
 
 var adverts = getRandomAdvert(8);
-fillDocumentFragment(adverts);
-listNode.appendChild(fragment);
+
+document.querySelector('.map').classList.remove('map--faded');
+
+listNode.appendChild(fillDocumentFragment(adverts));
 
 function getRandomInteger(max, min) {
   if (min === undefined) {
@@ -35,8 +39,8 @@ function getRandomAdvert(count) {
       type: TYPES[getRandomInteger(8)]
     };
     localAdvert.location = {
-      x: getRandomInteger(listNode.offsetWidth - 50, 0),
-      y: getRandomInteger(130, 630)
+      x: getRandomInteger(X_RIGHT_MAP_BORDER, X_LEFT_MAP_BORDER),
+      y: getRandomInteger(Y_TOP_MAP_BORDER, Y_BOTTOM_MAP_BORDER)
     };
     localAdverts[i] = localAdvert;
   }
@@ -54,7 +58,9 @@ function createAdvertElement(advert) {
 
 
 function fillDocumentFragment(localAdverts) {
+  var fragment = document.createDocumentFragment();
   localAdverts.forEach(function (advertItem) {
     fragment.appendChild(createAdvertElement(advertItem));
   });
+  return fragment;
 }
