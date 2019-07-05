@@ -36,31 +36,31 @@ markerNode.addEventListener('mouseup', function () {
 
 
 housingTypeNode.addEventListener('change', function () {
-  updatePrice(priceNode);
+  updatePrice(priceNode, event);
 });
 
 timeInNode.addEventListener('change', function () {
-  synchronizeTime(timeOutNode);
+  synchronizeTime(timeOutNode, event);
 });
 
 timeOutNode.addEventListener('change', function () {
-  synchronizeTime(timeInNode);
+  synchronizeTime(timeInNode, event);
 });
 
 
-function synchronizeTime(syncNode) {
-  syncNode.value = event.target.value;
+function synchronizeTime(syncNode, evt) {
+  syncNode.value = evt.target.value;
 }
 
-function updatePrice(localPriceNode) {
+function updatePrice(localPriceNode, evt) {
   var minPriceList = {
     bungalo: '0',
     flat: '1000',
     house: '5000',
     palace: '10000'
   };
-  localPriceNode.placeholder = minPriceList[event.target.value];
-  localPriceNode.min = minPriceList[event.target.value];
+  localPriceNode.placeholder = minPriceList[evt.target.value];
+  localPriceNode.min = minPriceList[evt.target.value];
 }
 
 function disableForm(form) {
