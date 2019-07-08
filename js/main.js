@@ -20,6 +20,10 @@ var adFormNode = document.querySelector('.ad-form');
 var mapFiltersNode = document.querySelector('.map__filters');
 var markerNode = document.querySelector('.map__pin--main');
 var addressInputNode = document.querySelector('#address');
+var housingTypeNode = document.querySelector('#type');
+var priceNode = document.querySelector('#price');
+var timeInNode = document.querySelector('#timein');
+var timeOutNode = document.querySelector('#timeout');
 
 deactivatePage();
 fillAddress(markerNode);
@@ -30,6 +34,34 @@ markerNode.addEventListener('mouseup', function () {
   fillAddress(markerNode);
 });
 
+
+housingTypeNode.addEventListener('change', function () {
+  updatePrice(priceNode, event);
+});
+
+timeInNode.addEventListener('change', function () {
+  synchronizeTime(timeOutNode, event);
+});
+
+timeOutNode.addEventListener('change', function () {
+  synchronizeTime(timeInNode, event);
+});
+
+
+function synchronizeTime(syncNode, evt) {
+  syncNode.value = evt.target.value;
+}
+
+function updatePrice(localPriceNode, evt) {
+  var minPriceList = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  };
+  localPriceNode.placeholder = minPriceList[evt.target.value];
+  localPriceNode.min = minPriceList[evt.target.value];
+}
 
 function disableForm(form) {
   form.classList.add('ad-form--disabled');
