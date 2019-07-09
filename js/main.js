@@ -34,8 +34,8 @@ markerNode.addEventListener('mousedown', function (evt) {
   activatePage();
   markerNode.style.zIndex = 10;
 
-  markerNode.style.left = evt.clientX - mapNode.offsetLeft - + 'px';
-  markerNode.style.top = evt.clientY - markerNode.offsetHeight / 2  + 'px';
+  markerNode.style.left = evt.clientX - mapNode.offsetLeft + 'px';
+  markerNode.style.top = evt.clientY - markerNode.offsetHeight / 2 + 'px';
 
   var startCoords = {
     x: evt.clientX,
@@ -54,7 +54,7 @@ markerNode.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-    if (moveEvt.clientY > 130 && moveEvt.clientY < 630) {
+    if (moveEvt.clientY > Y_TOP_MAP_BORDER && moveEvt.clientY < Y_BOTTOM_MAP_BORDER) {
       markerNode.style.top = (markerNode.offsetTop - shift.y) + 'px';
     }
     if (moveEvt.pageX > mapNode.offsetLeft && moveEvt.clientX < mapNode.offsetLeft + mapNode.clientWidth) {
