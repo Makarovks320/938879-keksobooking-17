@@ -28,12 +28,53 @@ var timeOutNode = document.querySelector('#timeout');
 deactivatePage();
 fillAddress(markerNode);
 var adverts = getRandomAdvert(8);
-markerNode.addEventListener('mouseup', function () {
-  activatePage();
-  listNode.appendChild(fillDocumentFragment(adverts));
-  fillAddress(markerNode);
-});
 
+markerNode.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  activatePage();
+  markerNode.style.zIndex = 10;
+
+  markerNode.style.left = evt.clientX - mapNode.offsetLeft - + 'px';
+  markerNode.style.top = evt.clientY - markerNode.offsetHeight / 2  + 'px';
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+    if (moveEvt.clientY > 130 && moveEvt.clientY < 630) {
+      markerNode.style.top = (markerNode.offsetTop - shift.y) + 'px';
+    }
+    if (moveEvt.pageX > mapNode.offsetLeft && moveEvt.clientX < mapNode.offsetLeft + mapNode.clientWidth) {
+      markerNode.style.left = (markerNode.offsetLeft - shift.x) + 'px';
+    }
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    listNode.appendChild(fillDocumentFragment(adverts));
+    fillAddress(markerNode);
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
 
 housingTypeNode.addEventListener('change', function () {
   updatePrice(priceNode, event);
@@ -78,8 +119,8 @@ function enableForm(form) {
 }
 
 function getCoordinates(mark) {
-  var coordinateX = parseInt(mark.style.left, 10);
-  var coordinateY = parseInt(mark.style.top, 10);
+  var coordinateX = parseInt(mark.style.left, 10) + 25;
+  var coordinateY = parseInt(mark.style.top, 10) + 80;
   var coordinates = [coordinateX, coordinateY];
   return coordinates;
 }
