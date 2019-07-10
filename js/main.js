@@ -16,24 +16,88 @@ var Y_BOTTOM_MAP_BORDER = 630;
 var Y_TOP_MAP_BORDER = 130;
 
 var mapNode = document.querySelector('.map');
+
 var adFormNode = document.querySelector('.ad-form');
 var mapFiltersNode = document.querySelector('.map__filters');
-var markerNode = document.querySelector('.map__pin--main');
+var mapPinMain = document.querySelector('.map__pin--main');
 var addressInputNode = document.querySelector('#address');
 var housingTypeNode = document.querySelector('#type');
 var priceNode = document.querySelector('#price');
 var timeInNode = document.querySelector('#timein');
 var timeOutNode = document.querySelector('#timeout');
+var roomCountNode = document.querySelector('#room_number');
+var capacityNode = document.querySelector('#capacity');
 
 deactivatePage();
-fillAddress(markerNode);
+fillAddress(mapPinMain);
 var adverts = getRandomAdvert(8);
-markerNode.addEventListener('mouseup', function () {
-  activatePage();
-  listNode.appendChild(fillDocumentFragment(adverts));
-  fillAddress(markerNode);
-});
 
+// var areaRect = mapNode.getBoundingClientRect(); // можно заменить просто на offsetWidth в переменной boundSize
+// var boundSize = {
+//   width: areaRect.width,
+//   height: areaRect.height
+// };
+// var pinSize = {
+//   width: mapPinMain.offsetWidth,
+//   height: mapPinMain.offsetHeight
+// };
+// var pinCoords = {
+//   x: boundSize.width / 2,
+//   y: boundSize.height / 2
+// };
+
+// function movePoint(newCoords) {
+//   mapPinMain.style.top = newCoords.y - pinSize.height + 'px';
+//   mapPinMain.style.left = newCoords.x - pinSize.width / 2 + 'px';
+//   setAdress(newCoords);
+// }
+// function setAdress(coords) {
+//   addressInputNode.value = coords.x + ', ' + coords.y;
+// }
+mapPinMain.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  activatePage();
+  mapPinMain.style.zIndex = 10;
+
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+    if (moveEvt.clientY > Y_TOP_MAP_BORDER && moveEvt.clientY < Y_BOTTOM_MAP_BORDER) {
+      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+    }
+    if (moveEvt.clientX > mapNode.offsetLeft && moveEvt.clientX < mapNode.offsetLeft + mapNode.clientWidth) {
+      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+    }
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    listNode.appendChild(fillDocumentFragment(adverts));
+    fillAddress(mapPinMain);
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
 
 housingTypeNode.addEventListener('change', function () {
   updatePrice(priceNode, event);
@@ -47,6 +111,33 @@ timeOutNode.addEventListener('change', function () {
   synchronizeTime(timeInNode, event);
 });
 
+roomCountNode.addEventListener('change', function () {
+  enableSelecting(capacityNode);
+  synchronizeCapacity(capacityNode);
+});
+
+
+function synchronizeCapacity(localCapacityNode) {
+  var i;
+  if (event.target.value === '100') {
+    for (i = 0; i < localCapacityNode.children.length - 1; i++) {
+      localCapacityNode.children[i].disabled = true;
+    }
+    localCapacityNode.value = '0';
+  } else {
+    localCapacityNode.lastElementChild.disabled = true;
+    for (i = localCapacityNode.children.length - 2 - event.target.value; i >= 0; i--) {
+      localCapacityNode.children[i].disabled = true;
+    }
+    localCapacityNode.value = event.target.value;
+  }
+}
+
+function enableSelecting(localSelectingNode) {
+  for (var i = 0; i < localSelectingNode.children.length; i++) {
+    localSelectingNode.children[i].disabled = false;
+  }
+}
 
 function synchronizeTime(syncNode, evt) {
   syncNode.value = evt.target.value;
@@ -78,8 +169,8 @@ function enableForm(form) {
 }
 
 function getCoordinates(mark) {
-  var coordinateX = parseInt(mark.style.left, 10);
-  var coordinateY = parseInt(mark.style.top, 10);
+  var coordinateX = parseInt(mark.style.left, 10) + 25;
+  var coordinateY = parseInt(mark.style.top, 10) + 80;
   var coordinates = [coordinateX, coordinateY];
   return coordinates;
 }
