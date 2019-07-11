@@ -4,6 +4,7 @@
 // активирует карту и страницу
 (function () {
   var mapNode = document.querySelector('.map');
+  var listNode = document.querySelector('.map__pins');
   var adFormNode = document.querySelector('.ad-form');
   var mapFiltersNode = document.querySelector('.map__filters');
 
@@ -21,10 +22,16 @@
     },
 
     activatePins: function () {
-      window.data.listNode.appendChild(window.card.fragment);
+      listNode.appendChild(window.load.fragment);
     },
-
-    mapNode: mapNode
+    mapBorders: {
+      X_RIGHT: listNode.offsetWidth - 50,
+      X_LEFT: 0,
+      Y_BOTTOM: 630,
+      Y_TOP: 130
+    },
+    mapNode: mapNode,
+    listNode: listNode
 
   };
 

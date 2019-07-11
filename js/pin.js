@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mapBorders = window.data.mapBorders;
+  var mapBorders = window.map.mapBorders;
   var arrowHeight = 15; // длина стрелки у пина
   var mapPinMain = document.querySelector('.map__pin--main');
 
