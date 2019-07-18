@@ -27,44 +27,4 @@
     xhr.send();
   };
 
-
-  var successHandler = function (adverts) {
-    window.load = {
-      adverts: adverts
-    };
-
-    var template = document.querySelector('#pin');
-
-
-    function createAdvertElement(advert) {
-      var advertElement = template.content.querySelector('.map__pin').cloneNode(true);
-      advertElement.style.left = advert.location.x + 'px';
-      advertElement.style.top = advert.location.y + 'px';
-      advertElement.querySelector('img').src = advert.author.avatar;
-      advertElement.querySelector('img').alt = 'заголовок объявления';
-      return advertElement;
-    }
-
-    function fillDocumentFragment(localAdverts) {
-      var fragment = document.createDocumentFragment();
-      localAdverts.forEach(function (advertItem) {
-        fragment.appendChild(createAdvertElement(advertItem));
-      });
-      return fragment;
-    }
-    window.load = {
-      fragment: fillDocumentFragment(window.load.adverts)
-    };
-  };
-
-  var errorHandler = function () {
-    var template = document.querySelector('#error');
-    var node = template.content.querySelector('p').cloneNode(true);
-    document.querySelector('main').insertAdjacentElement('afterbegin', node);
-  };
-
-  window.load(successHandler, errorHandler);
-
-
 })();
-

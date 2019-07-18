@@ -22,7 +22,7 @@
     },
 
     activatePins: function () {
-      listNode.appendChild(window.load.fragment);
+      listNode.appendChild(window.data.fragment);
     },
     mapBorders: {
       X_RIGHT: listNode.offsetWidth - 50,
