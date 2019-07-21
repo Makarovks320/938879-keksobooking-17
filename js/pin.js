@@ -59,11 +59,7 @@
     evt.preventDefault();
     window.map.activatePage();
     mapPinMain.style.zIndex = 10;
-    if (!activated) {
-      window.map.activatePins();
-      window.form.fillAddress(mapPinMain);
-      activated = true;
-    }
+
 
     var startCoords = {
       x: evt.clientX,
@@ -94,7 +90,11 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       window.form.fillAddress(mapPinMain);
-
+      if (!activated) {
+        window.map.activatePins();
+        window.form.fillAddress(mapPinMain);
+        activated = true;
+      }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

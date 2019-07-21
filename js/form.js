@@ -11,6 +11,8 @@
   var roomCountNode = document.querySelector('#room_number');
   var capacityNode = document.querySelector('#capacity');
   var addressInputNode = document.querySelector('#address');
+  var adFormNode = document.querySelector('.ad-form');
+  var mapFiltersNode = document.querySelector('.map__filters');
 
   housingTypeNode.addEventListener('change', function () {
     updatePrice(priceNode, event);
@@ -73,22 +75,28 @@
     var coordinates = [coordinateX, coordinateY];
     return coordinates;
   }
-
+  function disableForm(form) {
+    form.classList.add('ad-form--disabled');
+    for (var i = 0; i < form.children.length; i++) {
+      form.children[i].setAttribute('disabled', '');
+    }
+  }
+  function enableForm(form) {
+    form.classList.remove('ad-form--disabled');
+    for (var i = 0; i < form.children.length; i++) {
+      form.children[i].removeAttribute('disabled');
+    }
+  }
 
   window.form = {
-
-    disableForm: function (form) {
-      form.classList.add('ad-form--disabled');
-      for (var i = 0; i < form.children.length; i++) {
-        form.children[i].setAttribute('disabled', '');
-      }
+    disableForm: function () {
+      disableForm(adFormNode);
+      disableForm(mapFiltersNode);
     },
 
-    enableForm: function (form) {
-      form.classList.remove('ad-form--disabled');
-      for (var i = 0; i < form.children.length; i++) {
-        form.children[i].removeAttribute('disabled');
-      }
+    enableForm: function () {
+      enableForm(adFormNode);
+      enableForm(mapFiltersNode);
     },
     fillAddress: function (mark) {
       addressInputNode.value = getCoordinates(mark);
