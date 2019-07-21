@@ -5,25 +5,51 @@
 (function () {
   var mapNode = document.querySelector('.map');
   var listNode = document.querySelector('.map__pins');
-  var adFormNode = document.querySelector('.ad-form');
-  var mapFiltersNode = document.querySelector('.map__filters');
+  var template = document.querySelector('#pin');
 
+
+  function createAdvertElement(advert) {
+    var advertElement = template.content.querySelector('.map__pin').cloneNode(true);
+    advertElement.style.left = advert.location.x + 'px';
+    advertElement.style.top = advert.location.y + 'px';
+    advertElement.querySelector('img').src = advert.author.avatar;
+    advertElement.querySelector('img').alt = 'заголовок объявления';
+    return advertElement;
+  }
+
+  function fillDocumentFragment(localAdverts) {
+    var fragment = document.createDocumentFragment();
+    localAdverts.forEach(function (advertItem) {
+      fragment.appendChild(createAdvertElement(advertItem));
+    });
+    return fragment;
+  }
+
+  function updatePins() {
+    var fragment = fillDocumentFragment(window.data.getAds());
+    // listNode.removeChild(listNode.lastChild);
+    listNode.appendChild(fragment);
+  }
+  function deactivatePage() {
+    mapNode.classList.add('map--faded');
+    window.form.disableForm();
+  }
+  function activatePage() {
+    mapNode.classList.remove('map--faded');
+    window.form.enableForm();
+  }
+  function activatePins() {
+    var successCallback = function (ads) {
+      window.data.setAds(ads);
+      updatePins();
+    };
+    window.load.getData(successCallback, window.utils.displayError);
+  }
   window.map = {
-    deactivatePage: function () {
-      mapNode.classList.add('map--faded');
-      window.form.disableForm(adFormNode);
-      window.form.disableForm(mapFiltersNode);
-    },
-
-    activatePage: function () {
-      mapNode.classList.remove('map--faded');
-      window.form.enableForm(adFormNode);
-      window.form.enableForm(mapFiltersNode);
-    },
-
-    activatePins: function () {
-      listNode.appendChild(window.data.fragment);
-    },
+    deactivatePage: deactivatePage,
+    activatePage: activatePage,
+    activatePins: activatePins,
+    updatePins: updatePins,
     mapBorders: {
       X_RIGHT: listNode.offsetWidth - 50,
       X_LEFT: 0,
