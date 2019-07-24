@@ -23,7 +23,8 @@
     y: areaPinMain.top + window.scrollY + pinSize.height
   };
 
-  var activated = false;
+  var pinsActivated = false;
+  var pageActivated = false;
 
   function movePoint(newCoords) {
     mapPinMain.style.top = newCoords.y - pinSize.height + 'px';
@@ -57,7 +58,10 @@
 
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    window.map.activatePage();
+    if (!pageActivated) {
+      window.map.activatePage();
+      pageActivated = true;
+    }
     mapPinMain.style.zIndex = 10;
 
 
@@ -90,10 +94,9 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       window.form.fillAddress(mapPinMain);
-      if (!activated) {
+      if (!pinsActivated) {
         window.map.activatePins();
-        window.form.fillAddress(mapPinMain);
-        activated = true;
+        pinsActivated = true;
       }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
