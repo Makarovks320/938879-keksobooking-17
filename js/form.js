@@ -120,10 +120,7 @@ var activeFilters = {} в модуле form. и добавить его в windo
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
         updateFilters(evt);
-        var filteredAds = window.data.filterAds(activeFilters);
-        console.log(filteredAds);
-        // console.log(window.data.ads);
-        // window.map.updatePins();
+        window.map.updatePins(activeFilters);
       });
     }
   }
@@ -142,10 +139,6 @@ var activeFilters = {} в модуле form. и добавить его в windo
   listenFilterChange(selectsCollection);
   // listenFilterChange(inputsCollection);
 
-  function getActiveFilters() {
-    return activeFilters;
-  }
-
   window.form = {
     disableForm: function () {
       disableForm(adFormNode);
@@ -159,9 +152,6 @@ var activeFilters = {} в модуле form. и добавить его в windo
     fillAddress: function (mark) {
       addressInputNode.value = getCoordinates(mark);
     },
-    getActiveFilter: function () {
-      return activeFilters;
-    },
-    getActiveFilters: getActiveFilters()
+    activeFilters: activeFilters
   };
 })();

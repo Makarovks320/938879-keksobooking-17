@@ -3,15 +3,7 @@
 
   var ads = [];
 
-  function getAds() {
-    return ads.slice(0, 5);
-  }
-
-  function setAds(newAds) {
-    ads = newAds;
-  }
-
-  function filterAds(filters) {
+  function getAds(filters) {
     var priceList = {
       any: [0, Infinity],
       low: [0, 10000],
@@ -38,15 +30,16 @@
       }
       return true;
     });
-    // console.log(newAds);
-    // console.log(ads);
-    // console.log(filters);
-    return newAds;
+    return newAds.slice(0, 5);
+  }
+
+  function setAds(newAds) {
+    ads = newAds;
   }
   window.data = {
     getAds: getAds,
     setAds: setAds,
-    filterAds: filterAds
+    adsLength: 0
   };
 
 })();

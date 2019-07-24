@@ -25,11 +25,40 @@
     return fragment;
   }
 
-  function updatePins() {
-    var fragment = fillDocumentFragment(window.data.getAds());
-    // listNode.removeChild(listNode.lastChild);
+  var pinsActivated = false;
+
+  function updatePins(filters) {
+    var filteredAds = window.data.getAds(filters);
+    var fragment = fillDocumentFragment(window.data.getAds(filters));
+    if (pinsActivated === true) {
+      for (var i = 0; i < window.data.adsLength; i++) {
+        listNode.removeChild(listNode.lastChild);
+      }
+    } else {
+      pinsActivated = true;
+    }
     listNode.appendChild(fragment);
+    window.data.adsLength = filteredAds.length;
   }
+  // function updatePins(filters) {
+  //   var fragment = fillDocumentFragment(window.data.getAds(filters));
+  //   console.log(listNode.children.length);
+  //   if (pinsActivated === true) {
+  //     console.log('пины активированы');
+  //     for (var i = listNode.children.length - 1; i >= 0; i++) {
+  //       console.log(listNode.children);
+  //       console.log(listNode.children[i]);
+  //       console.log(listNode.children[i].class);
+  //       // if (listNode.children[i].class === 'map__pin') {
+  //       //   listNode.removeChild(listNode.children[i]);
+  //       // }
+  //     }
+  //   } else {
+  //     console.log('пины не активированы');
+  //     pinsActivated = true;
+  //   }
+  //   listNode.appendChild(fragment);
+  // }
   function deactivatePage() {
     mapNode.classList.add('map--faded');
     window.form.disableForm();
@@ -41,7 +70,7 @@
   function activatePins() {
     var successCallback = function (ads) {
       window.data.setAds(ads);
-      updatePins();
+      updatePins(window.form.activeFilters);
     };
     window.load.getData(successCallback, window.utils.displayError);
   }
