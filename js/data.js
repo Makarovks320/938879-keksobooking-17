@@ -36,7 +36,7 @@
             continue;
           }
         } else {
-          if (ad.offer[mapSelectToData[key]] != filters[key] && filters[key] !== 'any') {
+          if (String(ad.offer[mapSelectToData[key]]) !== filters[key] && filters[key] !== 'any') {
             return false;
           }
         }
