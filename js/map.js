@@ -25,11 +25,23 @@
     return fragment;
   }
 
-  function updatePins() {
-    var fragment = fillDocumentFragment(window.data.getAds());
-    // listNode.removeChild(listNode.lastChild);
+  var pinsActivated = false;
+
+  function updatePins(filters) {
+    var filteredAds = window.data.getAds(filters);
+    var fragment = fillDocumentFragment(filteredAds);
+    var pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin__main)');
+    var pinsCount = pinsNodes.length;
+    if (pinsActivated === true) {
+      for (var i = 0; i < pinsCount; i++) {
+        listNode.removeChild(pinsNodes[i]);
+      }
+    } else {
+      pinsActivated = true;
+    }
     listNode.appendChild(fragment);
   }
+
   function deactivatePage() {
     mapNode.classList.add('map--faded');
     window.form.disableForm();
@@ -41,7 +53,7 @@
   function activatePins() {
     var successCallback = function (ads) {
       window.data.setAds(ads);
-      updatePins();
+      updatePins(window.form.activeFilters);
     };
     window.load.getData(successCallback, window.utils.displayError);
   }

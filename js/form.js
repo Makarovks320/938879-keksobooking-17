@@ -1,6 +1,5 @@
 'use strict';
 
-//  модуль, который работает с формой объявления
 
 (function () {
 
@@ -11,8 +10,10 @@
   var roomCountNode = document.querySelector('#room_number');
   var capacityNode = document.querySelector('#capacity');
   var addressInputNode = document.querySelector('#address');
+
   var adFormNode = document.querySelector('.ad-form');
   var mapFiltersNode = document.querySelector('.map__filters');
+
 
   housingTypeNode.addEventListener('change', function () {
     updatePrice(priceNode, event);
@@ -88,6 +89,51 @@
     }
   }
 
+  var selectsCollection = document.querySelector('.map__filters').querySelectorAll('select');
+  var inputsCollection = document.querySelector('#housing-features').querySelectorAll('input');
+
+  function listenSelectChange(collection) {
+    for (var j = 0; j < collection.length; j++) {
+      collection[j].addEventListener('change', function (evt) {
+        updateSelectFilters(evt);
+        window.map.updatePins(activeFilters);
+      });
+    }
+  }
+
+  function listenInputChange(collection) {
+    for (var j = 0; j < collection.length; j++) {
+      collection[j].addEventListener('change', function (evt) {
+        updateInputFilters(evt);
+        window.map.updatePins(activeFilters);
+      });
+    }
+  }
+
+  listenSelectChange(selectsCollection);
+  listenInputChange(inputsCollection);
+
+  var activeFilters = getActiveFilters();
+  function getActiveFilters() {
+    var filters = {};
+    for (var i = 0; i < selectsCollection.length; i++) {
+      filters[selectsCollection[i].name] = selectsCollection[i].value;
+    }
+    for (var j = 0; j < inputsCollection.length; j++) {
+      filters[inputsCollection[j].value] = inputsCollection[j].checked;
+    }
+    return filters;
+  }
+
+  function updateSelectFilters(evt) {
+    activeFilters[evt.target.name] = evt.target.value;
+    return activeFilters;
+  }
+  function updateInputFilters(evt) {
+    activeFilters[evt.target.value] = evt.target.checked;
+    return activeFilters;
+  }
+
   window.form = {
     disableForm: function () {
       disableForm(adFormNode);
@@ -100,6 +146,7 @@
     },
     fillAddress: function (mark) {
       addressInputNode.value = getCoordinates(mark);
-    }
+    },
+    activeFilters: activeFilters
   };
 })();
