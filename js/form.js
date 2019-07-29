@@ -1,6 +1,5 @@
 'use strict';
 
-//  модуль, который работает с формой объявления
 
 (function () {
 
@@ -90,54 +89,50 @@
     }
   }
 
-  /*
-надо сделать функцию, чтобы при изменении фильтра (любого) обновлялась карта.
-Эту функцию надо вешать на все селекты по событию чэйндж
-она при любом вызове проходит по нужным ДОМ-элементам, считывает их, проверяет и возвращает
-объект такого типа:
-{
-  roomsCount: 12,
-  houseType: 'home'
-}
-можно создать коллекцию ДОМ-элемнетов (селектов и инпутов - 2 коллекции),
-и повесить на каждый элемент этой коллекции слушатель на событие  ЧЭЙНДЖ с обработчиком, который  проходит по всем инпутам и селектам,
-которая считывает с них данные и возвращает объект, указанный выше. Этот объект надо записать в переменную
-var activeFilters = {} в модуле form. и добавить его в window.form.getActiveFilters = function
-  */
-
-  /* функция updateFilters будет висеть на всех инпутах и селектах
-  inputs.addEventListener('change', function () {
-    activeFilters = updateFilters();
-  });
-*/
-
-  // собираю коллекции нужных селектов и инпутов:
   var selectsCollection = document.querySelector('.map__filters').querySelectorAll('select');
-  // var inputsCollection = document.querySelector('#housing-features').querySelectorAll('input');
+  var inputsCollection = document.querySelector('#housing-features').querySelectorAll('input');
 
-  // функция добавления слушателя на ЧЕЙНДЖ для каждого элемента коллекции:
-  function listenFilterChange(collection) {
+  function listenSelectChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
-        updateFilters(evt);
+        updateSelectFilters(evt);
         window.map.updatePins(activeFilters);
       });
     }
   }
-  // создам объект со свойствами - именами и значениями селектов
-  var activeFilters = {};
-  for (var i = 0; i < selectsCollection.length; i++) {
-    activeFilters[selectsCollection[i].name] = selectsCollection[i].value;
+
+  function listenInputChange(collection) {
+    for (var j = 0; j < collection.length; j++) {
+      collection[j].addEventListener('change', function (evt) {
+        updateInputFilters(evt);
+        window.map.updatePins(activeFilters);
+      });
+    }
   }
-  // функция чтения фильтров. Проходит по коллекциям селектов и  инпутов и  собирает объект с их значениями
-  function updateFilters(evt) {
+
+  listenSelectChange(selectsCollection);
+  listenInputChange(inputsCollection);
+
+  var activeFilters = getActiveFilters();
+  function getActiveFilters() {
+    var filters = {};
+    for (var i = 0; i < selectsCollection.length; i++) {
+      filters[selectsCollection[i].name] = selectsCollection[i].value;
+    }
+    for (var j = 0; j < inputsCollection.length; j++) {
+      filters[inputsCollection[j].value] = inputsCollection[j].checked;
+    }
+    return filters;
+  }
+
+  function updateSelectFilters(evt) {
     activeFilters[evt.target.name] = evt.target.value;
     return activeFilters;
   }
-
-  // добавляю функции к коллекциям:
-  listenFilterChange(selectsCollection);
-  // listenFilterChange(inputsCollection);
+  function updateInputFilters(evt) {
+    activeFilters[evt.target.value] = evt.target.checked;
+    return activeFilters;
+  }
 
   window.form = {
     disableForm: function () {
