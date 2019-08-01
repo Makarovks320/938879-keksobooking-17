@@ -40,20 +40,8 @@
     }
     listNode.appendChild(fragment);
     pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
-    /*
-  В функции updatePins есть:
-    filteredAds - массив отрисованных объявлений;
-    pinsNodes - коллекция ДОМ-элементов пинов;
-    Если здесь к каждому ДОМ-элементу поставить слушатель на клик,
-    то
-    */
     window.card.setHandlers(pinsNodes, filteredAds);
-    // for (var j = 0; j < pinsNodes.length; j++) {
-    //   pinsNodes[j].addEventListener('click', function () {
-    //     console.log('вызываюсь');
-
-    //   });
-    // }
+    console.log(filteredAds);
   }
 
   function deactivatePage() {
