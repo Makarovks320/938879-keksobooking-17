@@ -90,7 +90,7 @@
       photos[i].src = advert.offer.photos[i];
       photoContainer.appendChild(photo);
     }
-    console.log(photos); // видно, что в photoContainer есть фотки с правильными src, но они не отображаются
+    // console.log(photos); видно, что в photoContainer есть фотки с правильными src, но они не отображаются
   }
 
   window.card = {
