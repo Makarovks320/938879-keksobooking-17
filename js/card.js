@@ -11,7 +11,7 @@
     'house': 'Дом',
     'flat': 'Квартира',
     'palace': 'Дворец'
-  }
+  };
 
   function setHandlers(pinsNodes, filteredAds) {
     nodes = pinsNodes;
@@ -70,19 +70,30 @@
     return fragment;
   }
 
-  function updateFeatures(advert, card) {
+  function updateFeatures(advert, card) { // исправить
+
     var featuresListNode = card.querySelector('.popup__features');
     var featuresCollection = card.querySelector('.popup__features').children;
+    var missingFeatures = [];
 
     for (var i = 0; i < featuresCollection.length; i++) {
-      if (advert.offer.features.indexOf(featuresCollection[i].MapToFeatureName) === -1) {
+      var featureName = '';
+      for (var j = 31; j < featuresCollection[i].className.length; j++) {
+        featureName += featuresCollection[i].className[j];
+      }
 
-        featuresListNode.removeChild(featuresCollection[i]);
+      if (advert.offer.features.indexOf(featureName) === -1) {
+        missingFeatures.splice(0, 0, i);
       }
     }
+    console.log(missingFeatures);
+    for (var k = missingFeatures.length - 1; k >= 0; k--) {
+      featuresListNode.removeChild(featuresCollection[k]);
+    }
+
   }
 
-  function updatePhotos(advert, card) {
+  function updatePhotos(advert, card) { // исправить
     var photos = [];
     var photo = card.querySelector('.popup__photo').cloneNode();
     var photoContainer = card.querySelector('.popup__photos');
