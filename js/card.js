@@ -60,12 +60,11 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
 
     updateFeatures(ad, cardElement);
-
     cardElement.querySelector('.popup__description').textContent = ad.offer.description;
-
     updatePhotos(ad, cardElement);
-
     cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
+    console.log(ad);
+    console.log(ad.offer.features);
     fragment.appendChild(cardElement);
     return fragment;
   }
@@ -73,7 +72,7 @@
   function updateFeatures(advert, card) { // проверить
 
     var featuresListNode = card.querySelector('.popup__features');
-    var featuresCollection = card.querySelector('.popup__features').children;
+    var featuresCollection = featuresListNode.children;
     var missingFeatures = [];
 
     for (var i = 0; i < featuresCollection.length; i++) {
@@ -86,8 +85,13 @@
         missingFeatures.splice(0, 0, i);
       }
     }
+
     for (var k = missingFeatures.length - 1; k >= 0; k--) {
+      console.log(featuresCollection[k]);
+      console.log(typeof featuresCollection[k]);
       featuresListNode.removeChild(featuresCollection[k]);
+      // var featureIndex = missingFeatures[k];
+      // featuresListNode.removeChild(featuresCollection[featureIndex]);
     }
 
   }
