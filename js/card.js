@@ -6,6 +6,12 @@
   var template = document.querySelector('#card');
   var mapNode = document.querySelector('.map');
   var ESC_KEYCODE = 27;
+  var mapAdToCard = {
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'flat': 'Квартира',
+    'palace': 'Дворец'
+  }
 
   function setHandlers(pinsNodes, filteredAds) {
     nodes = pinsNodes;
@@ -20,8 +26,6 @@
   function onPinClick(evt) {
     var card = createCard(ads, evt.currentTarget.currentIndex);
     openPopup(card);
-
-
     // ПЕРЕДЕЛАТЬ НА insertAdjacentHTML
     // mapNode.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', card);
   }
@@ -51,7 +55,7 @@
     cardElement.querySelector('.popup__title').textContent = ad.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = ad.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = ad.offer.type;// подключить мапу
+    cardElement.querySelector('.popup__type').textContent = mapAdToCard[ad.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
 
