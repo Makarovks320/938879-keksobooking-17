@@ -70,7 +70,7 @@
     return fragment;
   }
 
-  function updateFeatures(advert, card) { // исправить
+  function updateFeatures(advert, card) { // проверить
 
     var featuresListNode = card.querySelector('.popup__features');
     var featuresCollection = card.querySelector('.popup__features').children;
@@ -86,7 +86,6 @@
         missingFeatures.splice(0, 0, i);
       }
     }
-    console.log(missingFeatures);
     for (var k = missingFeatures.length - 1; k >= 0; k--) {
       featuresListNode.removeChild(featuresCollection[k]);
     }
