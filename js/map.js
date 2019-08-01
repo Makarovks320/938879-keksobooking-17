@@ -30,16 +30,30 @@
   function updatePins(filters) {
     var filteredAds = window.data.getAds(filters);
     var fragment = fillDocumentFragment(filteredAds);
-    var pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin__main)');
-    var pinsCount = pinsNodes.length;
+    var pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (pinsActivated === true) {
-      for (var i = 0; i < pinsCount; i++) {
+      for (var i = 0; i < pinsNodes.length; i++) {
         listNode.removeChild(pinsNodes[i]);
       }
     } else {
       pinsActivated = true;
     }
     listNode.appendChild(fragment);
+    pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
+    /*
+  В функции updatePins есть:
+    filteredAds - массив отрисованных объявлений;
+    pinsNodes - коллекция ДОМ-элементов пинов;
+    Если здесь к каждому ДОМ-элементу поставить слушатель на клик,
+    то
+    */
+    window.card.setHandlers(pinsNodes, filteredAds);
+    // for (var j = 0; j < pinsNodes.length; j++) {
+    //   pinsNodes[j].addEventListener('click', function () {
+    //     console.log('вызываюсь');
+
+    //   });
+    // }
   }
 
   function deactivatePage() {

@@ -88,8 +88,7 @@
   }
   window.data = {
     getAds: getAds,
-    setAds: setAds,
-    adsLength: 0
+    setAds: setAds
   };
 
 })();
