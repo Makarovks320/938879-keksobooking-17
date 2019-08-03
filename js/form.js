@@ -14,6 +14,13 @@
   var adFormNode = document.querySelector('.ad-form');
   var mapFiltersNode = document.querySelector('.map__filters');
 
+  var successMessage = document.querySelector('#success')
+      .content
+      .querySelector('.success');
+
+  var errorMessage = document.querySelector('#error')
+  .content
+  .querySelector('.error');
 
   housingTypeNode.addEventListener('change', function () {
     updatePrice(priceNode, event);
@@ -133,6 +140,37 @@
     activeFilters[evt.target.value] = evt.target.checked;
     return activeFilters;
   }
+
+  function closeMessage(template) {
+    template.addEventListener('click', function () {
+      template.remove();
+    });
+
+    function onPopupEscPress() {
+      template.remove();
+      document.removeEventListener('keydown', onPopupEscPress);
+    }
+    document.addEventListener('keydown', onPopupEscPress);
+  }
+
+  function successHandler() {
+    window.map.cleanMap();
+    adFormNode.reset();
+    window.map.deactivatePage();
+    window.pin.resetMainPin();
+    document.body.appendChild(successMessage);
+    closeMessage(successMessage);
+  }
+
+  function errorHandler() {
+    document.body.appendChild(errorMessage);
+    closeMessage(errorMessage);
+  }
+
+  adFormNode.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.send(new FormData(adFormNode), successHandler, errorHandler);
+  });
 
   window.form = {
     disableForm: function () {
