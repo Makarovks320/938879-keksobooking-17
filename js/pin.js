@@ -4,7 +4,10 @@
   var mapBorders = window.map.mapBorders;
   var arrowHeight = 15; // длина стрелки у пина
   var mapPinMain = document.querySelector('.map__pin--main');
-
+  var mainPinStartCoords = {
+    x: mapPinMain.style.left,
+    y: mapPinMain.style.top
+  };
   window.map.deactivatePage();
   window.form.fillAddress(mapPinMain);
 
@@ -29,6 +32,17 @@
   function movePoint(newCoords) {
     mapPinMain.style.top = newCoords.y - pinSize.height + 'px';
     mapPinMain.style.left = newCoords.x - pinSize.width / 2 + 'px';
+  }
+
+  function resetMainPin() {
+    mapPinMain.style.top = mainPinStartCoords.y;
+    mapPinMain.style.left = mainPinStartCoords.x;
+    pinCoords = {
+      x: boundSize.width / 2,
+      y: areaPinMain.top + pinSize.height
+    };
+    pageActivated = false;
+    pinsActivated = false;
   }
 
   function validateBound(coords, bound) {
@@ -107,4 +121,7 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  window.pin = {
+    resetMainPin: resetMainPin
+  };
 })();

@@ -20,7 +20,11 @@
   function fillDocumentFragment(localAdverts) {
     var fragment = document.createDocumentFragment();
     localAdverts.forEach(function (advertItem) {
-      fragment.appendChild(createAdvertElement(advertItem));
+      var pin = createAdvertElement(advertItem);
+      pin.addEventListener('click', function () {
+        window.card.setPopupActivity(advertItem);
+      });
+      fragment.appendChild(pin);
     });
     return fragment;
   }
@@ -39,9 +43,6 @@
       pinsActivated = true;
     }
     listNode.appendChild(fragment);
-    pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
-    window.card.setHandlers(pinsNodes, filteredAds);
-    console.log(filteredAds);
   }
 
   function deactivatePage() {
@@ -57,8 +58,19 @@
       window.data.setAds(ads);
       updatePins(window.form.activeFilters);
     };
-    window.load.getData(successCallback, window.utils.displayError);
+    window.backend.load(successCallback, window.utils.displayError);
   }
+
+  function cleanMap() {
+    window.card.removeCard();
+    var pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
+    if (pinsNodes !== null) {
+      for (var i = 0; i < pinsNodes.length; i++) {
+        listNode.removeChild(pinsNodes[i]);
+      }
+    }
+  }
+
   window.map = {
     deactivatePage: deactivatePage,
     activatePage: activatePage,
@@ -71,7 +83,8 @@
       Y_TOP: 130
     },
     mapNode: mapNode,
-    listNode: listNode
+    listNode: listNode,
+    cleanMap: cleanMap
 
   };
 
