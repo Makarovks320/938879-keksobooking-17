@@ -41,6 +41,7 @@
       x: boundSize.width / 2,
       y: areaPinMain.top + pinSize.height
     };
+    window.form.fillAddress(mapPinMain);
     pageActivated = false;
     pinsActivated = false;
   }

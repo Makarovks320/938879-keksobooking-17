@@ -141,11 +141,6 @@
     return activeFilters;
   }
 
-
-  // function setAdFormAddress (x, y) {
-  //   adFormAddress.value = x + ' ,' + y;
-  // }
-
   function closeMessage(template) {
     template.addEventListener('click', function () {
       template.remove();
@@ -158,17 +153,6 @@
     document.addEventListener('keydown', onPopupEscPress);
   }
 
-  // function closeForm () {
-  //   adForm.reset();
-  //   window.map.mapClose();
-  //   adForm.classList.add('ad-form--disabled');
-  //   window.utils.setAttributeDisabled(adFormFieldset, true);
-  //   window.pinDrag.activatedReset();
-  //   window.pinDrag.setPinCenter();
-  //   window.imageAdd.imageReset();
-  // };
-
-  // Успешная отправка формы
   function successHandler() {
     window.map.cleanMap();
     adFormNode.reset();
