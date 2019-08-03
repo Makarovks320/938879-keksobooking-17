@@ -102,8 +102,10 @@
   function listenSelectChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
-        updateSelectFilters(evt);
-        window.map.updatePins(activeFilters);
+        window.debounce(function () {
+          updateSelectFilters(evt);
+          window.map.updatePins(activeFilters);
+        });
       });
     }
   }
@@ -111,8 +113,10 @@
   function listenInputChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
-        updateInputFilters(evt);
-        window.map.updatePins(activeFilters);
+        window.debounce(function () {
+          updateInputFilters(evt);
+          window.map.updatePins(activeFilters);
+        });
       });
     }
   }
