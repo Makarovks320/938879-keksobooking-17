@@ -24,8 +24,8 @@
     }
   });
 
-  var photosChooser = document.querySelector('.ad-form__input'); // инупт, который выбирает фотографии
-  var photosPreview = document.querySelector('.ad-form__photo'); // блок, куда вставлять загруженные фотографии
+  var photosChooser = document.querySelector('.ad-form__input');
+  var photosPreview = document.querySelector('.ad-form__photo');
 
   photosChooser.addEventListener('change', function () {
     var file = photosChooser.files[0];
@@ -40,8 +40,8 @@
 
       reader.addEventListener('load', function () {
         var photo = document.createElement('img');
-        photo.width = '25';
-        photo.height = '25';
+        photo.width = '30';
+        photo.height = '30';
         photo.src = reader.result;
         photosPreview.appendChild(photo);
       }
