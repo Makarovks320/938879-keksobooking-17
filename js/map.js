@@ -1,12 +1,10 @@
 'use strict';
 
-//  модуль, который отрисовывает карточки на карте
-// активирует карту и страницу
 (function () {
   var mapNode = document.querySelector('.map');
   var listNode = document.querySelector('.map__pins');
   var template = document.querySelector('#pin');
-
+  var pinsActivated = false;
 
   function createAdvertElement(advert) {
     var advertElement = template.content.querySelector('.map__pin').cloneNode(true);
@@ -23,13 +21,13 @@
       var pin = createAdvertElement(advertItem);
       pin.addEventListener('click', function () {
         window.card.setPopupActivity(advertItem);
+        pin.classList.add('map__pin--active');
       });
       fragment.appendChild(pin);
     });
     return fragment;
   }
 
-  var pinsActivated = false;
 
   function updatePins(filters) {
     var filteredAds = window.data.getAds(filters);
@@ -58,7 +56,7 @@
       window.data.setAds(ads);
       updatePins(window.form.activeFilters);
     };
-    window.backend.load(successCallback, window.utils.displayError);
+    window.backend.load(successCallback, window.form.errorHandler);
   }
 
   function cleanMap() {

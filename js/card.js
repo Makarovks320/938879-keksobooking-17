@@ -33,6 +33,7 @@
 
   function closePopup() {
     mapNode.removeChild(mapNode.querySelector('article'));
+    mapNode.querySelector('.map__pin--active').classList.remove('map__pin--active');
     document.removeEventListener('keydown', onPopupEscPress);
   }
 

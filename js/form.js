@@ -13,6 +13,7 @@
 
   var adFormNode = document.querySelector('.ad-form');
   var mapFiltersNode = document.querySelector('.map__filters');
+  var resetButton = document.querySelector('.ad-form__reset');
 
   var successMessage = document.querySelector('#success')
       .content
@@ -102,8 +103,9 @@
   function listenSelectChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
+        window.card.removeCard();
+        updateSelectFilters(evt);
         window.debounce(function () {
-          updateSelectFilters(evt);
           window.map.updatePins(activeFilters);
         });
       });
@@ -113,8 +115,9 @@
   function listenInputChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
+        window.card.removeCard();
+        updateInputFilters(evt);
         window.debounce(function () {
-          updateInputFilters(evt);
           window.map.updatePins(activeFilters);
         });
       });
@@ -157,23 +160,33 @@
     document.addEventListener('keydown', onPopupEscPress);
   }
 
-  function successHandler() {
+  function resetPage() {
     window.map.cleanMap();
     adFormNode.reset();
+    mapFiltersNode.reset();
+    activeFilters = getActiveFilters();
     window.map.deactivatePage();
     window.pin.resetMainPin();
-    document.body.appendChild(successMessage);
+  }
+  function successHandler() {
+    resetPage();
+    document.body.querySelector('main').appendChild(successMessage);
     closeMessage(successMessage);
   }
 
   function errorHandler() {
-    document.body.appendChild(errorMessage);
+    document.body.querySelector('main').appendChild(errorMessage);
     closeMessage(errorMessage);
   }
 
   adFormNode.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.send(new FormData(adFormNode), successHandler, errorHandler);
+  });
+
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetPage();
   });
 
   window.form = {
@@ -189,6 +202,7 @@
     fillAddress: function (mark) {
       addressInputNode.value = getCoordinates(mark);
     },
-    activeFilters: activeFilters
+    activeFilters: getActiveFilters(),
+    errorHandler: errorHandler
   };
 })();

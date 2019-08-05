@@ -9,6 +9,14 @@
     middle: [10000, 50000],
     high: [50000, Infinity]
   };
+
+  var mapSelectToData = {
+    'housing-type': 'type',
+    'housing-price': 'price',
+    'housing-rooms': 'rooms',
+    'housing-guests': 'guests'
+  };
+
   function comparePrice(adPrice, filterPrice) {
     if (
       (adPrice >= priceList[filterPrice][1] || adPrice < priceList[filterPrice][0])
@@ -18,12 +26,6 @@
     }
     return true;
   }
-  var mapSelectToData = {
-    'housing-type': 'type',
-    'housing-price': 'price',
-    'housing-rooms': 'rooms',
-    'housing-guests': 'guests'
-  };
 
   function getfilteredBySelectAds(filters) {
     var filteredBySelectAds = ads.filter(function (ad) {

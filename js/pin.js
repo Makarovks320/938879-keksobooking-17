@@ -8,8 +8,6 @@
     x: mapPinMain.style.left,
     y: mapPinMain.style.top
   };
-  window.map.deactivatePage();
-  window.form.fillAddress(mapPinMain);
 
   var areaRect = window.map.mapNode.getBoundingClientRect();
   var areaPinMain = mapPinMain.getBoundingClientRect();
@@ -28,6 +26,9 @@
 
   var pinsActivated = false;
   var pageActivated = false;
+
+  window.map.deactivatePage();
+  window.form.fillAddress(mapPinMain);
 
   function movePoint(newCoords) {
     mapPinMain.style.top = newCoords.y - pinSize.height + 'px';
@@ -77,7 +78,7 @@
       window.map.activatePage();
       pageActivated = true;
     }
-    mapPinMain.style.zIndex = 10;
+    mapPinMain.style.zIndex = 2;
 
 
     var startCoords = {
