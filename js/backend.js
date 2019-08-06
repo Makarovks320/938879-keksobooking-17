@@ -7,7 +7,7 @@
   };
   var TIMEOUT = 10000;
 
-  function newXhr(onSuccess, onError) {
+  function makeXhr(onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -30,12 +30,12 @@
   }
   window.backend = {
     load: function (onSuccess, onError) {
-      var xhr = newXhr(onSuccess, onError);
+      var xhr = makeXhr(onSuccess, onError);
       xhr.open('GET', URL.load);
       xhr.send();
     },
     send: function (data, onSuccess, onError) {
-      var xhr = newXhr(onSuccess, onError);
+      var xhr = makeXhr(onSuccess, onError);
       xhr.open('POST', URL.send);
       xhr.send(data);
     }

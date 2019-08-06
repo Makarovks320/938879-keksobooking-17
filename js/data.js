@@ -18,13 +18,10 @@
   };
 
   function comparePrice(adPrice, filterPrice) {
-    if (
-      (adPrice >= priceList[filterPrice][1] || adPrice < priceList[filterPrice][0])
-      && filterPrice !== 'any'
-    ) {
-      return false;
-    }
-    return true;
+    return (
+      (adPrice < priceList[filterPrice][1] && adPrice >= priceList[filterPrice][0])
+      || filterPrice === 'any'
+    );
   }
 
   function getfilteredBySelectAds(filters) {

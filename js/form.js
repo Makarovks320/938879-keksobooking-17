@@ -191,12 +191,12 @@
   });
 
   window.form = {
-    disableForm: function () {
+    disable: function () {
       disableForm(adFormNode);
       disableForm(mapFiltersNode);
     },
 
-    enableForm: function () {
+    enable: function () {
       enableForm(adFormNode);
       enableForm(mapFiltersNode);
     },

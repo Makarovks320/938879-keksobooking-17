@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mapBorders = window.map.mapBorders;
+  var mapBorders = window.map.borders;
   var arrowHeight = 15; // длина стрелки у пина
   var mapPinMain = document.querySelector('.map__pin--main');
   var mainPinStartCoords = {
@@ -9,7 +9,7 @@
     y: mapPinMain.style.top
   };
 
-  var areaRect = window.map.mapNode.getBoundingClientRect();
+  var areaRect = window.map.node.getBoundingClientRect();
   var areaPinMain = mapPinMain.getBoundingClientRect();
   var boundSize = {
     width: areaRect.width,
@@ -85,7 +85,7 @@
       x: evt.clientX,
       y: evt.clientY
     };
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -106,8 +106,8 @@
       pinCoords = validateBound(newCoords, boundSize);
 
       movePoint(pinCoords);
-    };
-    var onMouseUp = function (upEvt) {
+    }
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
       window.form.fillAddress(mapPinMain);
       if (!pinsActivated) {
@@ -116,7 +116,7 @@
       }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
 
     document.addEventListener('mousemove', onMouseMove);

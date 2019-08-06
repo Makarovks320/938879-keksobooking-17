@@ -7,12 +7,12 @@
   var pinsActivated = false;
 
   function createAdvertElement(advert) {
-    var advertElement = template.content.querySelector('.map__pin').cloneNode(true);
-    advertElement.style.left = advert.location.x + 'px';
-    advertElement.style.top = advert.location.y + 'px';
-    advertElement.querySelector('img').src = advert.author.avatar;
-    advertElement.querySelector('img').alt = 'заголовок объявления';
-    return advertElement;
+    var ad = template.content.querySelector('.map__pin').cloneNode(true);
+    ad.style.left = advert.location.x + 'px';
+    ad.style.top = advert.location.y + 'px';
+    ad.querySelector('img').src = advert.author.avatar;
+    ad.querySelector('img').alt = 'заголовок объявления';
+    return ad;
   }
 
   function fillDocumentFragment(localAdverts) {
@@ -45,17 +45,17 @@
 
   function deactivatePage() {
     mapNode.classList.add('map--faded');
-    window.form.disableForm();
+    window.form.disable();
   }
   function activatePage() {
     mapNode.classList.remove('map--faded');
-    window.form.enableForm();
+    window.form.enable();
   }
   function activatePins() {
-    var successCallback = function (ads) {
+    function successCallback(ads) {
       window.data.setAds(ads);
       updatePins(window.form.activeFilters);
-    };
+    }
     window.backend.load(successCallback, window.form.errorHandler);
   }
 
@@ -74,13 +74,13 @@
     activatePage: activatePage,
     activatePins: activatePins,
     updatePins: updatePins,
-    mapBorders: {
+    borders: {
       X_RIGHT: listNode.offsetWidth - 50,
       X_LEFT: 0,
       Y_BOTTOM: 630,
       Y_TOP: 130
     },
-    mapNode: mapNode,
+    node: mapNode,
 
     clean: clean
 
