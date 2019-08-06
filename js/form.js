@@ -16,12 +16,12 @@
   var resetButton = document.querySelector('.ad-form__reset');
 
   var successMessage = document.querySelector('#success')
-      .content
-      .querySelector('.success');
+    .content
+    .querySelector('.success');
 
   var errorMessage = document.querySelector('#error')
-  .content
-  .querySelector('.error');
+    .content
+    .querySelector('.error');
 
   housingTypeNode.addEventListener('change', function () {
     updatePrice(priceNode, event);
@@ -103,7 +103,7 @@
   function listenSelectChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
-        window.card.removeCard();
+        window.card.removePopup();
         updateSelectFilters(evt);
         window.debounce(function () {
           window.map.updatePins(activeFilters);
@@ -115,7 +115,7 @@
   function listenInputChange(collection) {
     for (var j = 0; j < collection.length; j++) {
       collection[j].addEventListener('change', function (evt) {
-        window.card.removeCard();
+        window.card.removePopup();
         updateInputFilters(evt);
         window.debounce(function () {
           window.map.updatePins(activeFilters);
@@ -161,12 +161,13 @@
   }
 
   function resetPage() {
-    window.map.cleanMap();
+    window.map.clean();
     adFormNode.reset();
     mapFiltersNode.reset();
     activeFilters = getActiveFilters();
     window.map.deactivatePage();
-    window.pin.resetMainPin();
+    window.pin.reset();
+    window.photoAdd.reset();
   }
   function successHandler() {
     resetPage();

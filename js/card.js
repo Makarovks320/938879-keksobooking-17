@@ -13,7 +13,7 @@
   };
 
   function setPopupActivity(advert) {
-    removeCard();
+    removePopup();
     var card = createCard(advert);
     openPopup(card);
   }
@@ -81,13 +81,13 @@
 
   }
 
-  function removeCard() {
+  function removePopup() {
     if (mapNode.querySelector('article') !== null) {
       closePopup();
     }
   }
   window.card = {
     setPopupActivity: setPopupActivity,
-    removeCard: removeCard
+    removePopup: removePopup
   };
 })();

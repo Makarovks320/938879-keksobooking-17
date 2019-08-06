@@ -59,8 +59,8 @@
     window.backend.load(successCallback, window.form.errorHandler);
   }
 
-  function cleanMap() {
-    window.card.removeCard();
+  function clean() {
+    window.card.removePopup();
     var pinsNodes = listNode.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (pinsNodes !== null) {
       for (var i = 0; i < pinsNodes.length; i++) {
@@ -81,8 +81,8 @@
       Y_TOP: 130
     },
     mapNode: mapNode,
-    listNode: listNode,
-    cleanMap: cleanMap
+
+    clean: clean
 
   };
 

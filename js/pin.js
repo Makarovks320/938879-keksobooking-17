@@ -17,7 +17,7 @@
   };
   var pinSize = {
     width: areaPinMain.width,
-    height: areaPinMain.height + arrowHeight
+    height: areaPinMain.height - arrowHeight
   };
   var pinCoords = {
     x: boundSize.width / 2,
@@ -35,7 +35,7 @@
     mapPinMain.style.left = newCoords.x - pinSize.width / 2 + 'px';
   }
 
-  function resetMainPin() {
+  function reset() {
     mapPinMain.style.top = mainPinStartCoords.y;
     mapPinMain.style.left = mainPinStartCoords.x;
     pinCoords = {
@@ -124,6 +124,6 @@
   });
 
   window.pin = {
-    resetMainPin: resetMainPin
+    reset: reset
   };
 })();
